@@ -1,10 +1,11 @@
-module.exports = function(app) {
-    var patientHandlers = require('../Controller/patientController');
-    // todoList Routes
-    app.route('/tasks')
-        .post(patientHandlers.loginRequired, patientHandlers.profile);
-    app.route('/auth/register')
-        .post(userHandlers.register);
-   app.route('/auth/login')
-        .post(patientHandlers.login);
-};
+const express = require("express");
+
+const patientRouter = express.Router();
+const {
+  createPatient, getPatient,deletepatient,
+} = require("../../routers/controllers/patientController");
+patientRouter.get("/", getPatient);
+patientRouter.post("/create-patient", createPatient);
+
+patientRouter.put("/delete-patient/:id",deletepatient);
+module.exports = {patientRouter };

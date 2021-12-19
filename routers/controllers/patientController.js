@@ -1,20 +1,68 @@
-require("dotenv").config();
-const mongoose = require("mongoose"),
-  jwt = require("jsonwebtoken"),
-  bcrypt = require("bcrypt"),
-  Patient = mongoose.model("Patient");
-  
-exports.register = function (req, res) {
-  const newPatient = new Patient(req.body);
-  newPatient.hash_password = bcrypt.hashSync(req.body.password, 10);
-  newPatient.save(function (err, patient) {
-    if (err) {
-      return res.status(400).send({
-        message: err,
+const mongoose = requre("mongoose"),
+const {Patient} = require("../../models/patientDB");
+const createPatient = (req, res) => {
+  const { nationalId } = req.body;
+  if (!nationalId) {
+    return res.status(422).json({ error: "" });
+  }
+  Patient.findOne({
+    nationalId: nationalId,
+  })
+    .then((savedPatient) => {
+      if (savedPatient) {
+        return res
+          .status(404)
+          .json({ error: "patient already exists with that nationalId" });
+      }
+      const patient = new Patient({
+        firstName,
+        lastName,
+        nationalId,
+        age,
+        gender,
+        phoneNumber,
+        visit,
       });
-    } else {
-      patient.hash_password = undefined;
-      return res.json(patient);
-    }
-  });
+
+
+      patient
+        .save()
+        .then((patient) => {
+          res.json({ status: "success", message: "saved successfully" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
+
+const getPatient = async (req, res) => {
+  await Patient.find({ isDeleted: false })
+    .then((response) => res.status(201).json(response))
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const deletepatient = (req, res) => {
+  const Id = req.params.id;
+
+  Patient.findOneAndUpdate({ _id: Id }, { isDeleted: true })
+    .then((result) => {
+      res.status(202).json({ message: "patient have been updated" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send("error can not updated");
+    });
+};
+
+module.exports = {
+  createPatient,
+  getPatient,
+  deletepatient
+};
+
