@@ -6,12 +6,12 @@ const patientSchema = new mongoose.Schema({
   age: String,
   gender: String,
   phoneNumber: String,
-  // Password: { type: String, required: true },
+  
   visit: [
     {
       date: String,
-      nurseId: Object.Id,
-      doctorId: ObjectId,
+      nurseId:String,
+      doctorId: String,
       temperature: Number,
       bp: String,
       weight: String,
@@ -23,5 +23,5 @@ const patientSchema = new mongoose.Schema({
     },
   ],
 });
-const Patient = mongoose.model("Patient", patientSchema);
-module.exports = {Patient}
+module.exports.Patient = mongoose.model("Patient", patientSchema);
+//module.exports = {Patient}

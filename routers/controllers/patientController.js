@@ -1,9 +1,12 @@
-const mongoose = requre("mongoose"),
+ const mongoose = require("mongoose");
 const {Patient} = require("../../models/patientDB");
 const createPatient = (req, res) => {
+  console.log("Inside create patient method")
+  // console.log(Patient);
   const { nationalId } = req.body;
+  console.log(req.body);
   if (!nationalId) {
-    return res.status(422).json({ error: "" });
+    return res.status(422).json({ error: "not found" });
   }
   Patient.findOne({
     nationalId: nationalId,
@@ -14,15 +17,17 @@ const createPatient = (req, res) => {
           .status(404)
           .json({ error: "patient already exists with that nationalId" });
       }
-      const patient = new Patient({
-        firstName,
-        lastName,
-        nationalId,
-        age,
-        gender,
-        phoneNumber,
-        visit,
-      });
+      const patient = new Patient(req.body);
+      // console.log(patient)
+      // const patient = new Patient({
+      //   firstName:req.body.firstName,
+      //   lastName:req.body.lastName,
+      //   nationalId,
+      //   age,
+      //   gender,
+      //   phoneNumber,
+      //   visit,
+      // });
 
 
       patient
