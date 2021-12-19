@@ -2,24 +2,28 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const cors = require('cors')
-
+const {roleRouter}=require("../back-end/routers/routes/roleRouter")
 
 /* --------------------------- Database connection -------------------------- */
 
 mongoose.connect("mongodb+srv://hospitalDB:Aa123456@cluster0.8aevd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", (err, result) =>{
-    console.log("databse connected");
+    console.log("database connected");
 })
 
 
 /* ----------------------------- import Routers ----------------------------- */
 
+app.use(express.json());
+app.use(cors())
 
-
+app.get('/', (req, res) => {
+    res.redirect('/roles');
+  });
 
 
 /* --------------------------------- routers -------------------------------- */
 
-
+app.use('/roles',roleRouter)
 
 
 

@@ -1,4 +1,4 @@
-const {Role} = require("../../models/roleDB");
+const { Role } = require("../../models/roleDB");
 //Create Role
 const createRole = (req, res) => {
   const { title } = req.body;
@@ -37,11 +37,15 @@ const createRole = (req, res) => {
 };
 
 //Get Roles
-const getRoles = async (req, res) => {
-  await Role.find({ isDeleted: false })
-    .then((response) => res.status(201).json(response))
+const getRoles = (req, res) => {
+  console.log("getRoles working")
+  Role.find({ isDeleted: false })
+    .then((response) => {
+      console.log("found")
+      res.status(200).json(response)})
     .catch((err) => {
       console.log(err);
+      res.send(err)
     });
 };
 //Delete Roles
