@@ -2,7 +2,8 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const cors = require('cors')
-const {roleRouter}=require("../back-end/routers/routes/roleRouter")
+const {roleRouter}=require("../back-end/routers/routes/roleRouter");
+const { patientRouter } = require('../back-end/routers/routes/patientRouter');
 
 /* --------------------------- Database connection -------------------------- */
 
@@ -16,15 +17,16 @@ mongoose.connect("mongodb+srv://hospitalDB:Aa123456@cluster0.8aevd.mongodb.net/m
 app.use(express.json());
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.redirect('/roles');
-  });
+// app.get('/', (req, res) => {
+//     res.redirect('/roles');
+//   });
 
+ 
 
 /* --------------------------------- routers -------------------------------- */
 
 app.use('/roles',roleRouter)
-
+app.use('/patient',patientRouter)
 
 
 
