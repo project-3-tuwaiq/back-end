@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const patientSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  nationalId: String,
+  nationalId: {type:String,required:true,unique:true},
   age: String,
   gender: String,
   phoneNumber: String,
-  Password: { type: String, required: true },
+  // Password: { type: String, required: true },
   visit: [
     {
       date: String,
