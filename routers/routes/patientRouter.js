@@ -2,10 +2,16 @@ const express = require("express");
 
 const patientRouter = express.Router();
 const {
-  createPatient, getPatient,deletepatient,
+  createPatient,
+  getPatient,
+  deletepatient,
+  searchPatient,
 } = require("../../routers/controllers/patientController");
+
+
 patientRouter.get("/", getPatient);
 patientRouter.post("/create-patient", createPatient);
+patientRouter.put("/delete-patient/:id", deletepatient);
+patientRouter.get("/searchPatient/:id", searchPatient)
 
-patientRouter.put("/delete-patient/:id",deletepatient);
-module.exports = {patientRouter };
+module.exports = { patientRouter };
