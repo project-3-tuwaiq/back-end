@@ -1,4 +1,6 @@
- const mongoose = require("mongoose");
+ const req = require("express/lib/request");
+const res = require("express/lib/response");
+const mongoose = require("mongoose");
 const {Patient} = require("../../models/patientDB");
 const createPatient = (req, res) => {
   console.log("Inside create patient method")
@@ -65,9 +67,59 @@ const deletepatient = (req, res) => {
     });
 };
 
+
+/* ----------------------------- search patient ----------------------------- */
+const searchPatient= (req,res)=>{
+  Patient.findOne({nationalId:req.params.id}, (err, result) =>{
+    if(err){
+      console.log(err)
+    }
+    else{
+    if(!result){
+       res
+        .status(400)
+        .send("not found patient");
+        return
+    }else {
+      //constructor method to create Visit Object and then push the new visit inside visit array
+      const newVisit  = new AddVisit(new Date().toString(), false, false);
+      result.visit.push(newVisit);
+      
+        Patient.findByIdAndUpdate(
+          result._id,
+          {
+            visit:result.visit
+        }).then(result => {
+          res.send("updated")
+          return
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+  }
+    res.json({ result: result })
+  }
+  )
+}
+
+function AddVisit(date, checkedByNurse, checkedByDr){
+  this.date = date;
+  this.checkedByNurse = checkedByNurse;
+  this.checkedByDr = checkedByDr;
+}
+
+/* ------------------------- update patient by nurce ------------------------ */
+
+const updatePatientByNurce = (req, res) =>{
+  Patient.findByIdAndUpdate(
+
+  )
+}
+
 module.exports = {
   createPatient,
   getPatient,
-  deletepatient
+  deletepatient,
+  searchPatient
 };
 

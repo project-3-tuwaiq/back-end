@@ -20,6 +20,8 @@ const patientSchema = new mongoose.Schema({
       drTreatment: String,
       diagnose: String,
       drNotes: String,
+      checkedByNurse: Boolean,
+      checkedByDr: Boolean,
     },
   ],
 });

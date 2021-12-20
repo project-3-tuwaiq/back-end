@@ -68,8 +68,20 @@ async function saveUser(req, res) {
 
 
 
-  //function to display all users
 
 
-  // function to delete update user
-module.exports = {saveUser, getAllUsers, getDataForLogIn}
+  // function to update user
+  const changeUserInfo = (req, res) => {
+    User.findOneAndUpdate(
+      {_id: req.params.id},
+      { firstName: req.body.firstName ,
+      lastName: req.body.lastName,
+      lastName: req.body.lastName,
+      age: req.body.age,
+      role: req.body.role,
+      password: req.body.password
+      },
+      (err, result) => res.json(result)
+    );
+  };
+module.exports = {saveUser, getAllUsers, getDataForLogIn, changeUserInfo}
