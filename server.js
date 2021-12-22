@@ -26,7 +26,7 @@ app.use(cors())
 /* --------------------------------- routers -------------------------------- */
 
 app.use('/roles',roleRouter)
-app.use('/patient/',patientRouter)
+app.use('/patient',patientRouter)
 app.use('/user',userRouter)
 
 

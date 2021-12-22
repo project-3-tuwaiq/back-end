@@ -19,7 +19,7 @@ const createRole = (req, res) => {
       const role = new Role({
         title,
         createdId: "superAdminId",
-        createdDate: new Date().toString(),
+        createdDate: new Date().toDateString(),
       });
 
       role
