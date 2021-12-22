@@ -23,8 +23,6 @@ async function saveUser(req, res) {
     {
         console.log(err.message)
     }
-    //   .then((err, result) => res.send(result))
-    //   .catch((err) => console.log(err));
   }
   /* -------------------------------------------------------------------------- */
   /*                                get all user                                */

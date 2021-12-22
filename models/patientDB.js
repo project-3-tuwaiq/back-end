@@ -6,24 +6,8 @@ const patientSchema = new mongoose.Schema({
   age: String,
   gender: String,
   phoneNumber: String,
+  isDeleted: {type: Boolean, default: false},
   
-  visit: [
-    {
-      date: String,
-      nurseId:String,
-      doctorId: String,
-      temperature: Number,
-      bp: String,
-      weight: String,
-      heartRate: String,
-      nurseNotes: String,
-      drTreatment: String,
-      diagnose: String,
-      drNotes: String,
-      checkedByNurse: Boolean,
-      checkedByDr: Boolean,
-    },
-  ],
 });
 module.exports.Patient = mongoose.model("Patient", patientSchema);
 //module.exports = {Patient}

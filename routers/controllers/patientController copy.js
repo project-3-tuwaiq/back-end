@@ -2,7 +2,6 @@
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
 const {Patient} = require("../../models/patientDB");
-const {Visit} = require("../../models/visitDB");
 
 
 
@@ -88,54 +87,26 @@ const searchPatient= (req,res)=>{
         .status(400)
         .send("not found patient");
         return
-    }
-    else {
-      res.status(200).json({patient: result});
+    }else {
+      //constructor method to create Visit Object and then push the new visit inside visit array
+      const newVisit  = new AddVisit(new Date().toString(), false, false);
+      result.visit.push(newVisit);
       
+        Patient.findByIdAndUpdate(
+          result._id,
+          {
+            visit:result.visit
+        }).then(result => {
+          res.send("updated")
+          return
+        }).catch(err => {
+          console.log(err)
+        })
     }
   }
     res.json({ result: result })
-  })
-}
-
-
-/* -------------------------------- add visit ------------------------------- */
-
-const addVisit = (req,res) =>{
-  Patient.findOne({nationalId:req.params.id}, (err, result) =>{
-    if(err){
-      console.log(err.message)
-    }
-    else{
-    if(!result){
-       res
-        .status(400)
-        .send("not found patient");
-        return
-    }
-    else {
-  //constructor method to create Visit Object and then push the new visit inside visit array
-  //const newVisit  = new AddVisit(new Date().toString(), false, false);
-  const visit = new Visit({
-    patientId: result._id,
-    date: new Date().toDateString(),
-    checkedByNurse:false,
-    checkedByDr:false
-  });
-  visit
-    .save()
-    .then((visit) => {
-      res.json({ status: "success", message: "saved successfully" });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  
   }
-}
-  }).catch((err) => {
-    console.log(err);
-  });
+  )
 }
 
 function AddVisit(date, checkedByNurse, checkedByDr){
@@ -144,64 +115,18 @@ function AddVisit(date, checkedByNurse, checkedByDr){
   this.checkedByDr = checkedByDr;
 }
 
-/* ------------------------- find patient by date for nurce ------------------------ */
+/* ------------------------- update patient by nurce ------------------------ */
 
-const updatePatientByDate = (req, res) =>{
-
-  Visit.findOneAndUpdate(
-    {date: new Date().toDateString(), checkedByNurse: false },{
-      checkedByNurse: req.body.checkedByNurse,
-      nurseId: req.body.nurseId,
-      temperature: req.body.temperature,
-      weight: req.body.weight,
-      bp: req.body.bp,
-      heartRate: req.body.heartRate,
-      checkedByDr: req.body.checkedByDr,
-    },
-    (err, result) =>{
-    if(err){
-      console.log(err);
-    }
-    else{
-        res.json({status: "success", message: "saved succesfully"})
-      }
-    }
-  )
-} 
-
-/* ------------------------- find patient by date for dr  ------------------------ */
-const updateDrByDate = (req, res) =>{
-  Visit.findOneAndUpdate  (
-    {date: new Date().toDateString(), checkedByNurse: true, checkedByDr: false},{
-      checkedByNurse: req.body.checkedByNurse,
-      doctorId: req.body.doctorId,
-      drNotes: req.body.drNotes,
-      diagnose: req.body.diagnose,
-      drTreatment: req.body.drTreatment,
-      checkedByDr: req.body.checkedByDr,
-    },
-    (err, result) =>{
-      if(err){
-        console.log(err);
-      }
-      else{
-        res.json({status: "success", message: "saved successfull"})
-      }
-    }
+const updatePatientByNurce = (req, res) =>{
+  Patient.findByIdAndUpdate(
+    
   )
 }
-
-
-
-
 
 module.exports = {
   createPatient,
   getPatient,
   deletepatient,
-  searchPatient,
-  addVisit,
-  updatePatientByDate,
-  updateDrByDate
+  searchPatient
 };
 
