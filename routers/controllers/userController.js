@@ -51,7 +51,6 @@ async function saveUser(req, res) {
             lastName: result.lastName,
             age: result.age,
             role: result.role,
-            password: result.password,
           };
           const token = jwt.sign(payload, process.env.SECRET_KEY);
           res.json({ message: "user logged in", token: token });
