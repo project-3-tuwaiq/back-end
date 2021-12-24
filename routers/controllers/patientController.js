@@ -14,6 +14,7 @@ const createPatient = (req, res) => {
   if (!nationalId) {
     return res.status(422).json({ error: "not found" });
   }
+
   Patient.findOne({
     nationalId: nationalId,
   })
