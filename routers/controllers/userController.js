@@ -81,4 +81,9 @@ async function saveUser(req, res) {
       (err, result) => res.json(result)
     );
   };
-module.exports = {saveUser, getAllUsers, getDataForLogIn, changeUserInfo}
+
+  function getUserDataFromToken (req, res){
+    const token = req.user
+    res.json({token: token})
+  }
+module.exports = {saveUser, getAllUsers, getDataForLogIn, changeUserInfo, getUserDataFromToken}

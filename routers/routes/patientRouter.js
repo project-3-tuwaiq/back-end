@@ -8,7 +8,10 @@ const {
   searchPatient,
   addVisit,
   updatePatientByDate,
-  updateDrByDate
+  updateDrByDate,
+  getAllVisits,
+  getAllVisitsDr,
+  getVisitsDrById
 } = require("../../routers/controllers/patientController");
 
 
@@ -17,7 +20,10 @@ patientRouter.post("/create-patient", createPatient);
 patientRouter.put("/delete-patient/:id", deletepatient);
 patientRouter.get("/searchPatient/:id", searchPatient)
 patientRouter.get("/addVisit/:id", addVisit)
-patientRouter.post("/addNursingDeptDetails", updatePatientByDate)
+patientRouter.get("/Visits", getAllVisits)
+patientRouter.get("/Visits/Dr", getAllVisitsDr)
+patientRouter.get("/Visits/Dr/:id", getVisitsDrById)
+patientRouter.put("/addNursingDeptDetails/:id", updatePatientByDate)
 patientRouter.post("/addDrsDeptDetails", updateDrByDate)
 
 

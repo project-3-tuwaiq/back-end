@@ -5,7 +5,7 @@ const visitSchema = new mongoose.Schema({
       date: String,
       nurseId:String,
       doctorId: String,
-      temperature: Number,
+      tempeature: String,
       bp: String,
       weight: String,
       heartRate: String,
